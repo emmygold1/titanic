@@ -40,10 +40,10 @@ test = combo[(nrow(train.dat)+1):nrow(combo), ]
 model = glm(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked,
                     data = train, family='binomial')
 
-pred = ifelse(predict(model, newdata=cv) > 0, 1, 0)
+pred = ifelse(predict(model, newdata=cv) > .6, 1, 0)
 length(which(cv$Survived == pred))/nrow(cv)
 #####################################################################
 # make prediction on test set
-pred = ifelse(predict(model, newdata=test) > 0, 1, 0)
+pred = ifelse(predict(model, newdata=test) > 0.6, 1, 0)
 res = data.frame(PassengerId = test$PassengerId, Survived = pred)
 write.csv(res, "logistic_pred.csv", row.names=F)
